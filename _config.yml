@@ -1,11 +1,11 @@
 # Site settings
-title: WynnZuo Blog
-SEOTitle: 左文杰 | WynnZuo Blog
+title: Dxufe Blog
+SEOTitle: 邓小风 | Dxufe Blog
 header-img: img/home-bg.jpg
 email: zuowenjie11111@gmail.com
-description: "程序和学习程序、读书 | 左文杰，Web & Mobile Lover，Software Engineer，UX Designer | 这里是 @WynnZuo左文杰 的个人博客，与你一起发现更大的世界。"
-keyword: "左文杰, WynnZuo左文杰, WynnZuo, 大佐, wynnzuo, @wynnzuo, 左文杰的博客, WynnZuo Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计, 后端"
-url: "https://wynnzuo.github.io"              # your host, for absolute URL
+description: "程序和学习程序、读书 | Dxufe，Web & Mobile Lover，Software Engineer，UX Designer | 这里是 @Dxufe邓小风 的个人博客，与你一起发现更大的世界。"
+keyword: "邓小风, Dxufe邓小风, Dxufe, 小风, dxufe, @dxufe, 邓小风的博客, Dxufe Blog, 博客, 个人网站, 互联网, Web, 数据 阅读 金融"
+url: "https://dxufe.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # Publish posts or collection documents with a future date.
@@ -13,9 +13,9 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username:     2998247341
-zhihu_username:     zuo-mu-han
-github_username:    wynnzuo
+#weibo_username:     2998247341
+#zhihu_username:     zuo-mu-han
+github_username:    dxufe
 #twitter_username:   huxpro
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
@@ -106,31 +106,7 @@ friends: [
     #     title: "Su",
     #     href: "http://su.gallery/"
     # },{
-        title: "乱序",
-        href: "http://mida.re/"
-    },{
-        title: "Sherry Wu",
-        href: "https://xuechundesign.github.io"
-    },{
-        title: "Luke 的自留地",
-        href: "http://hmqk1995.github.io"
-    },{
-        title: "Ebn's Blog",
-        href: "http://ebnbin.com/"
-    },{
-        title: "SmdCn's Blog",
-        href: "http://blog.smdcn.net"
-    },{
-        title: "JiyinYiyong",
-        href: "http://tiye.me/"
-    },{
-        title: "David's Game",
-        href: "https://www.ruoyaowu.com/"
-    },{
-        title: "DHong Say",
-        href: "http://dhong.co"
-    },{
-        title: "尹峰以为",
-        href: "http://ingf.github.io/"
+        title: "左文杰",
+        href: "https://wynnzuo.github.io/"
     }
 ]
