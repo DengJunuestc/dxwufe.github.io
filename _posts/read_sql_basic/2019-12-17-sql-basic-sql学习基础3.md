@@ -1,11 +1,11 @@
 ---
 title: "sql基础学习3"
-subtitle: "「sql」- 基础学习"
+subtitle: "「sql」- basic"
 layout: post
 author: "Dxufe"
 header-style: text
 tags:
-  - sql
+  - sql-basic
 ---
 ##### 1.sql-select into,备份数据，前提是备份表已经存在。
 

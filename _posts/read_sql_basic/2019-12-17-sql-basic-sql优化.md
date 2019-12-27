@@ -1,11 +1,11 @@
 ---
 title: "sql优化方法"
-subtitle: "「sql」- 优化方法"
+subtitle: "「sql」- optimize
 layout: post
 author: "Dxufe"
 header-style: text
 tags:
-  - sql
+  - sql-optimize
 ---
 **转载自 https://blog.csdn.net/wufaliang003/article/details/79875383**
 

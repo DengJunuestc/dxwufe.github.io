@@ -1,11 +1,11 @@
 ---
-title: "sql基础学习"
-subtitle: "「sql」- 基础学习1"
+title: "sql基础学习1"
+subtitle: "「sql」- basic"
 layout: post
 author: "Dxufe"
 header-style: text
 tags:
-  - sql
+  - sql-basic
 ---
 
 

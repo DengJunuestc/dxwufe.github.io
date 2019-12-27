@@ -1,11 +1,11 @@
 ---
 title: "sql基础学习6"
-subtitle: "「sql」- 基础学习"
+subtitle: "「sql」- basic"
 layout: post
 author: "Dxufe"
 header-style: text
 tags:
-  - sql
+  - sql-basic
 ---
 #### 1. sql 定义变量 
 ```

@@ -1,11 +1,11 @@
 ---
 title: "sql基础学习2"
-subtitle: "「sql」- 基础学习"
+subtitle: "「sql」- basic"
 layout: post
 author: "Dxufe"
 header-style: text
 tags:
-  - sql
+  - sql-basic
 ---
 ##### 1.sql like
    1."%" 可用于定义通配符
