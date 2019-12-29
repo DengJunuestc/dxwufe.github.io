@@ -1,6 +1,6 @@
 ---
 title: "sql优化方法"
-subtitle: "「sql」- optimize
+subtitle: "「sql」- optimize"
 layout: post
 author: "Dxufe"
 header-style: text
