@@ -1,6 +1,6 @@
 ---
-title: "python-crawler-webdriver+xpath+pymysql"
-subtitle: "「sql」- optimize"
+title: "python-crawler-webdriver+xpath+sqlalchemy+pd.io.sql.to_sql"
+subtitle: "「crawler」- 上交所科创板"
 layout: post
 author: "Dxufe"
 header-style: text
@@ -9,8 +9,10 @@ tags:
 ---
 
  1. 目标
+   
 		科创板开板以来，申报企业数量不断增加，目前已逾150家，拟通过爬虫获取所有申报企业的基本信息，例如审核状态、省份、行业、保荐机构、律师事务所、会计师事务所、保荐人、签字会计师、签字律师等信息。
  2. 网站分析
+   
  		打开http://kcb.sse.com.cn/renewal/ 进入上交所科创板股票发行上市审核项目动态页面，可以看到页面已有比较清晰格式化的信息展示，包括全称、审核状态、行业、保荐机构、律师事务所、会计师事务所、更新日期、受理日期等信息。![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816164650504.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
  		翻页页面url不变，右键网页源代码中也无上述表格中的相关信息，故尝试通过requests获取html不能得到上述表格中相关信息，所以拟采取 selenium 中的webdriver模拟浏览器进行访问
 (webdriver安装可参考https://blog.csdn.net/Alisen39/article/details/82930220)。
@@ -22,6 +24,7 @@ browser.get('http://kcb.sse.com.cn/renewal/') # page_source获取网页的源代
 html = etree.HTML(browser.page_source)  #得到html
 ```
  3. 页面解析元素提取
+   
  		在F12中通过定位相关字段，右键查看xpath获取目标元素的路径
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816165634416.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
 定义函数 pagedataget(html)，以提取每一页的关键信息，其中部分字段存在换行等情况，不能在一个路径下提取完整，需要加以判断整合。完整代码如下。
@@ -115,6 +118,7 @@ def pagedataget(html):
     return KCBINFO
 ```
  4. 公司详情页信息提取
+   
 		除了页面的基本信息外，还需要访问公司详情页面获取一些额外信息,可以通过访问pagedataget函数中提取到的url来实现这些进一步信息的提取。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816170635549.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
 因此需要定义针对某家公司的这些额外信息进行提取的函数，传入参数为公司名称，此处通过browser.find_element_by_partial_link_text模拟浏览器点击公司名称进入详情页面，而不通过访问url进入公司页面，完整代码如下
@@ -180,6 +184,7 @@ if __name__ == '__main__':
 爬取得到的信息如下，若遇到爬取得到的信息仍有格式不规范存在冗余的信息，可继续进行清洗。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816172316791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
  5. 入库
+   
  	将爬取得到的信息自动建表入到本地mysql库中，可以选择先在本地mysql中建好表再插入，或者直接在程序中建表写入。本次采用后者，自动建表入库，由于不同时间爬取得到的信息不一样，所以表名与时间挂钩以示区分，建表后通过sqlalchemy 将data导入到mysql中，定义save_to_db函数如下。
 ```
 def save_to_db(data):
