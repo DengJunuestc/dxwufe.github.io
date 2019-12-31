@@ -146,9 +146,10 @@ def compdataget(issuer_ful):
     browser.close()
     browser.switch_to_window(window[0])      #浏览器切换回主页面
     return issuer_sec,financing_amount,sponsor,accountant,lawyer,assessor_org,assessor
+```
 
-```  
 在定义好每一页的数据提取函数和每个公司的数据提取函数后，因为切换页面时，url不变，因此也需要通过模拟浏览器点击“下一页”进行换页操作，主函数如下：  
+
 ```
 if __name__ == '__main__':
     import pandas as pd 
@@ -174,11 +175,13 @@ if __name__ == '__main__':
     end = time.time()
     print ('一共有',len(KCBINFO),'家公司，'+'运行时间为',(end-start)/60,'分钟')
 ```  
+
 爬取得到的信息如下，若遇到爬取得到的信息仍有格式不规范存在冗余的信息，可继续进行清洗。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816172316791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
 
  5. 入库  
  	将爬取得到的信息自动建表入到本地mysql库中，可以选择先在本地mysql中建好表再插入，或者直接在程序中建表写入。本次采用后者，自动建表入库，由于不同时间爬取得到的信息不一样，所以表名与时间挂钩以示区分，建表后通过sqlalchemy 将data导入到mysql中，定义save_to_db函数如下:
+
 ```
 def save_to_db(data):
     conn = pymysql.connect(host='localhost', port=3306, user='root', password='xxx', db='xxx', charset="utf8") 
@@ -215,6 +218,7 @@ def save_to_db(data):
         print('save to db failure!')
     cursor.close()  
 ```  
+
 执行save_to_db（KCBINFO）后，通过Navicat查看本地mysql中的数据情况，发现确有新增表及数据，
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816173239400.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816173354402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
