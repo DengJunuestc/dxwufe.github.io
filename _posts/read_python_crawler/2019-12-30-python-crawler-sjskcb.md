@@ -116,7 +116,7 @@ def pagedataget(html):
  4. 公司详情页信息提取  
 		除了页面的基本信息外，还需要访问公司详情页面获取一些额外信息,可以通过访问pagedataget函数中提取到的url来实现这些进一步信息的提取。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816170635549.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
-因此需要定义针对某家公司的这些额外信息进行提取的函数，传入参数为公司名称，此处通过browser.find_element_by_partial_link_text模拟浏览器点击公司名称进入详情页面，而不通过访问url进入公司页面，完整代码如下  
+因此需要定义针对某家公司的这些额外信息进行提取的函数，传入参数为公司名称，此处通过browser.find_element_by_partial_link_text模拟浏览器点击公司名称进入详情页面，而不通过访问url进入公司页面，完整代码如下:
 ```
 def compdataget(issuer_ful):
     aa = browser.find_element_by_partial_link_text(issuer_ful[0:4])   #从公司名称关键字找到链接点进去
@@ -175,9 +175,10 @@ if __name__ == '__main__':
     print ('一共有',len(KCBINFO),'家公司，'+'运行时间为',(end-start)/60,'分钟')
 ```  
 爬取得到的信息如下，若遇到爬取得到的信息仍有格式不规范存在冗余的信息，可继续进行清洗。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816172316791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)  
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816172316791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
+
  5. 入库  
- 	将爬取得到的信息自动建表入到本地mysql库中，可以选择先在本地mysql中建好表再插入，或者直接在程序中建表写入。本次采用后者，自动建表入库，由于不同时间爬取得到的信息不一样，所以表名与时间挂钩以示区分，建表后通过sqlalchemy 将data导入到mysql中，定义save_to_db函数如下。
+ 	将爬取得到的信息自动建表入到本地mysql库中，可以选择先在本地mysql中建好表再插入，或者直接在程序中建表写入。本次采用后者，自动建表入库，由于不同时间爬取得到的信息不一样，所以表名与时间挂钩以示区分，建表后通过sqlalchemy 将data导入到mysql中，定义save_to_db函数如下:
 ```
 def save_to_db(data):
     conn = pymysql.connect(host='localhost', port=3306, user='root', password='xxx', db='xxx', charset="utf8") 
