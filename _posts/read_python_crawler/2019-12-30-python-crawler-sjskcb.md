@@ -8,11 +8,9 @@ tags:
   - crawler
 ---
 
- 1. 目标
-   
+ 1. 目标  
 		科创板开板以来，申报企业数量不断增加，目前已逾150家，拟通过爬虫获取所有申报企业的基本信息，例如审核状态、省份、行业、保荐机构、律师事务所、会计师事务所、保荐人、签字会计师、签字律师等信息。
- 2. 网站分析
-   
+ 2. 网站分析   
  		打开http://kcb.sse.com.cn/renewal/ 进入上交所科创板股票发行上市审核项目动态页面，可以看到页面已有比较清晰格式化的信息展示，包括全称、审核状态、行业、保荐机构、律师事务所、会计师事务所、更新日期、受理日期等信息。![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816164650504.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
  		翻页页面url不变，右键网页源代码中也无上述表格中的相关信息，故尝试通过requests获取html不能得到上述表格中相关信息，所以拟采取 selenium 中的webdriver模拟浏览器进行访问
 (webdriver安装可参考https://blog.csdn.net/Alisen39/article/details/82930220)。
@@ -22,13 +20,11 @@ from lxml import etree
 browser = webdriver.Chrome()
 browser.get('http://kcb.sse.com.cn/renewal/') # page_source获取网页的源代码，然后可以使用正则表达式，css，xpath，bs4等来解析网页
 html = etree.HTML(browser.page_source)  #得到html
-```
- 3. 页面解析元素提取
-   
+```  
+ 3. 页面解析元素提取    
  		在F12中通过定位相关字段，右键查看xpath获取目标元素的路径
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816165634416.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
-定义函数 pagedataget(html)，以提取每一页的关键信息，其中部分字段存在换行等情况，不能在一个路径下提取完整，需要加以判断整合。完整代码如下。
-
+定义函数 pagedataget(html)，以提取每一页的关键信息，其中部分字段存在换行等情况，不能在一个路径下提取完整，需要加以判断整合。完整代码如下。  
 ```
 '''获取每页的数据'''
 def pagedataget(html):
@@ -116,13 +112,11 @@ def pagedataget(html):
     KCBINFO.columns=['issuer_ful','status','province','csrc_ind','sponsor_org','lawfirm','accountfirm','update','acceptdate','compinfourl',
                      'issuer_sec','financing_amount','sponsor','accountant','lawyer','assessor_org','assessor']
     return KCBINFO
-```
- 4. 公司详情页信息提取
-   
+```  
+ 4. 公司详情页信息提取  
 		除了页面的基本信息外，还需要访问公司详情页面获取一些额外信息,可以通过访问pagedataget函数中提取到的url来实现这些进一步信息的提取。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816170635549.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
-因此需要定义针对某家公司的这些额外信息进行提取的函数，传入参数为公司名称，此处通过browser.find_element_by_partial_link_text模拟浏览器点击公司名称进入详情页面，而不通过访问url进入公司页面，完整代码如下
-
+因此需要定义针对某家公司的这些额外信息进行提取的函数，传入参数为公司名称，此处通过browser.find_element_by_partial_link_text模拟浏览器点击公司名称进入详情页面，而不通过访问url进入公司页面，完整代码如下  
 ```
 def compdataget(issuer_ful):
     aa = browser.find_element_by_partial_link_text(issuer_ful[0:4])   #从公司名称关键字找到链接点进去
@@ -153,9 +147,8 @@ def compdataget(issuer_ful):
     browser.switch_to_window(window[0])      #浏览器切换回主页面
     return issuer_sec,financing_amount,sponsor,accountant,lawyer,assessor_org,assessor
 
-```
-在定义好每一页的数据提取函数和每个公司的数据提取函数后，因为切换页面时，url不变，因此也需要通过模拟浏览器点击“下一页”进行换页操作，主函数如下
-
+```  
+在定义好每一页的数据提取函数和每个公司的数据提取函数后，因为切换页面时，url不变，因此也需要通过模拟浏览器点击“下一页”进行换页操作，主函数如下：  
 ```
 if __name__ == '__main__':
     import pandas as pd 
@@ -180,11 +173,10 @@ if __name__ == '__main__':
     KCBINFO.to_csv('kcbinfo.csv',sep=',',encoding='utf-8',index=None)
     end = time.time()
     print ('一共有',len(KCBINFO),'家公司，'+'运行时间为',(end-start)/60,'分钟')
-```
+```  
 爬取得到的信息如下，若遇到爬取得到的信息仍有格式不规范存在冗余的信息，可继续进行清洗。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816172316791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
- 5. 入库
-   
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816172316791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)  
+ 5. 入库  
  	将爬取得到的信息自动建表入到本地mysql库中，可以选择先在本地mysql中建好表再插入，或者直接在程序中建表写入。本次采用后者，自动建表入库，由于不同时间爬取得到的信息不一样，所以表名与时间挂钩以示区分，建表后通过sqlalchemy 将data导入到mysql中，定义save_to_db函数如下。
 ```
 def save_to_db(data):
@@ -221,7 +213,7 @@ def save_to_db(data):
     except:
         print('save to db failure!')
     cursor.close()  
-```
+```  
 执行save_to_db（KCBINFO）后，通过Navicat查看本地mysql中的数据情况，发现确有新增表及数据，
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816173239400.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190816173354402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNTExMjkx,size_16,color_FFFFFF,t_70)
