@@ -38,13 +38,14 @@ FROM
 当前分区的一个子集，在分区里面再进一步细分窗口，子句用来定义子集的规则，通常用来作为滑动窗口使用。通常使用rows BETWEEN frame_start AND frame_end语法来表示行范围.
 ![avatar](/img/sql_window.png)  
 reference:https://yq.aliyun.com/articles/719989    
-```CURRENT ROW 边界是当前行，一般和其他范围关键字一起使用
+```
+CURRENT ROW 边界是当前行，一般和其他范围关键字一起使用
 UNBOUNDED PRECEDING 边界是分区中的第一行
 UNBOUNDED FOLLOWING 边界是分区中的最后一行
 expr PRECEDING  当前行之前的expr(数字或表达式)行
 expr FOLLOWING  当前行之后的expr(数字或表达式)行
 ```
-**示例**
+**示例**  
 ```
 SELECT
 	province,
@@ -60,7 +61,7 @@ SELECT
 FROM
 	sse_kcbinfo_2019_08_16_15_17_17;
 ```
-**结果**  
+**结果**   
 ![avatar](/img/sql_windowuse.png)  
 分别是分组内所有行，分组内值在第一行到当前行的所有行（RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW），分组内第一行到当前行，分组内当前行+往前三行，分组内当前行+往后三行，分组内当前行+往前三行+往后三行，分组内当前行到最后一行。
 
