@@ -9,8 +9,7 @@ tags:
 ---
 1. 查找入职员工时间排名倒数第三的员工所有信息  
 ```
-SELECT
-	* 
+SELECT *
 FROM
 	employees 
 WHERE
@@ -144,7 +143,7 @@ select s.emp_no,s.salary,(select count(distinct salary) from salaries where sala
 select d.dept_no, e.emp_no,s.salary from employees e join dept_emp d on e.emp_no=d.emp_no join salaries s on e.emp_no=s.emp_no where e.emp_no not in (select emp_no from dept_manager) and d.to_date='9999-01-01' and s.to_date='9999-01-01'
 select d.dept_no,d.emp_no,s.salary from dept_emp d  join salaries s on d.emp_no=s.emp_no where d.emp_no not in (select emp_no from dept_manager where to_date='9999-01-01') and d.to_date='9999-01-01' and s.to_date='9999-01-01'
 ```
-% 25 获取员工其当前的薪水比其manager当前薪水还高的相关信息，当前表示to_date='9999-01-01',
+25. 获取员工其当前的薪水比其manager当前薪水还高的相关信息，当前表示to_date='9999-01-01',
 结果第一列给出员工的emp_no，
 第二列给出其manager的manager_no，
 第三列给出该员工当前的薪水emp_salary,
@@ -225,6 +224,7 @@ select concat(last_name,' ',first_name) as Name from employees;
 ```BEGIN```  
     ```执行语句列表```  
 ```END```  
+
 ```
 DELIMITER ||
 CREATE TRIGGER audit_log AFTER INSERT ON employees_test FOR EACH ROW
