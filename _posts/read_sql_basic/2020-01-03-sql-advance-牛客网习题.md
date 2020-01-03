@@ -220,15 +220,17 @@ select concat(last_name,' ',first_name) as Name from employees;
 * new 关键字表示更新后的表的字段 ，old表示更新前的表的字段 ,也可以插入时间如now()
 * 注意：  
 一般情况下，mysql默认是以 ; 作为结束执行语句，与触发器中需要的分行起冲突为解决此问题可用DELIMITER，如：DELIMITER ||，可以将结束符号变成||当触发器创建完成后，可以用DELIMITER ;来将结束符号变成;  
-```CREATE TRIGGER 触发器名 BEFORE|AFTER 触发事件 ON 表名 FOR EACH ROW```  
-```BEGIN```  
-```执行语句列表```   
-```END```  
+```
+   CREATE TRIGGER 触发器名 BEFORE|AFTER 触发事件 ON 表名 FOR EACH ROW```  
+   BEGIN  
+      执行语句列表 
+   END  
+```
 ```
 DELIMITER ||
 CREATE TRIGGER audit_log AFTER INSERT ON employees_test FOR EACH ROW
 BEGIN
-	INSERT INTO audit VALUES	( NEW.ID, NEW.NAME );
+	INSERT INTO audit VALUES ( NEW.ID, NEW.NAME );
 END || 
 DELIMITER;
 ```
@@ -243,7 +245,7 @@ DELIMITER;
 delete t from titles_test t join (select min(id) as id,emp_no from titles_test group by emp_no) tt on t.emp_no=tt.emp_no and t.id<>tt.id
 ```
 32. 将titles_test中所有to_date为9999-01-01的全部更新为NULL,且 from_date更新为2001-01-01。  
-```notcie:update语句中若干列之间要用逗号隔开，不要用and```
+```notcie:update语句中若干列之间要用逗号隔开，不要用and```  
 ```UPDATE titles_test SET to_date=NULL,from_date='2001-01-01' WHERE to_date='0000-00-00'```
 
 33. 将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变，使用replace实现。  
