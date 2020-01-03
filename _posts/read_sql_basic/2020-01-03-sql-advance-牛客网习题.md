@@ -1,6 +1,6 @@
 ---
-title: "牛客网员工工资相关习题总结"
-subtitle: "「sql」- casewhenthenelseend~round~if~复用表子查询"
+title: "牛客网部分sql习题总结"
+subtitle: "「sql」- engine-charlength~等"
 layout: post
 author: "Dxufe"
 header-style: text
