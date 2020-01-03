@@ -223,8 +223,7 @@ select concat(last_name,' ',first_name) as Name from employees;
 ```'CREATE TRIGGER 触发器名 BEFORE|AFTER 触发事件 ON 表名 FOR EACH ROW```  
 ```BEGIN```  
     ```执行语句列表```  
-```END```  
-
+```END```
 ```
 DELIMITER ||
 CREATE TRIGGER audit_log AFTER INSERT ON employees_test FOR EACH ROW
